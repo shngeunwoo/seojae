@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button"
 import { FlashMode, ListenMode, MatchMode, QuizMode, StudyBar, TypeMode } from "@/components/study/modes"
 import { formatMinutes, percent } from "@/lib/format"
 import { deckTitle } from "@/lib/labels"
+import { deckPath } from "@/lib/routes"
 import { buildQueue, scopeCount } from "@/lib/study"
 import {
   clearSession,
@@ -63,7 +64,7 @@ export function StudyView({ deckId }: { deckId: string }) {
   const title = deck ? deckTitle(deck, lang) : t("allDecks")
 
   useEffect(() => {
-    document.title = `${title} \u00b7 ${t("studyKicker")}`
+    document.title = `${title} · ${t("studyKicker")}`
   }, [title, t])
 
   if (deckId !== "all" && !deck) {
@@ -189,7 +190,7 @@ function Setup({
         <div className="flex flex-wrap gap-2">
           {SCOPES.map((item) => (
             <Chip key={item} pressed={scope === item} onClick={() => setScope(item)}>
-              {t(scopeKey[item])} \u00b7 {scopeCount(cards, item, clock)}
+              {t(scopeKey[item])} · {scopeCount(cards, item, clock)}
             </Chip>
           ))}
         </div>
@@ -259,13 +260,13 @@ function Runner({
     const live = flushStudyTime() ?? session
     setSession({ ...live, paused: true, lastTick: Date.now() })
     toast(t("progressSaved"))
-    router.push(deckId === "all" ? "/" : `/deck/${deckId}`)
+    router.push(deckId === "all" ? "/" : deckPath(deckId))
   }
 
   return (
     <div className="mx-auto flex min-h-dvh max-w-3xl flex-col px-4 py-4 sm:px-6">
       <StudyBar
-        title={`${title} \u00b7 ${t(modeKey[session.mode])}`}
+        title={`${title} · ${t(modeKey[session.mode])}`}
         index={session.index}
         total={queue.length}
         onExit={exit}
@@ -395,7 +396,7 @@ function Summary({
             {missed.map((card) => (
               <li key={card.id} className="px-3 py-2 text-sm">
                 <span className="font-medium">{card.term}</span>
-                <span className="text-muted-foreground"> \u00b7 {card.meaning}</span>
+                <span className="text-muted-foreground"> · {card.meaning}</span>
               </li>
             ))}
           </ul>
@@ -423,7 +424,7 @@ function Summary({
           variant="ghost"
           onClick={() => {
             clearSession()
-            router.push(deckId === "all" ? "/" : `/deck/${deckId}`)
+            router.push(deckId === "all" ? "/" : deckPath(deckId))
           }}
         >
           {deckId === "all" ? t("goHome") : t("backToDeck")}
