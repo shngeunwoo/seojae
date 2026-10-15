@@ -55,7 +55,7 @@ export function StatsView() {
       <section className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
         <Tile label={t("streak")} value={t("streakDays", { n: streak })} />
         <Tile label={t("todayReviews")} value={t("wordCount", { n: todayLog?.reviews ?? 0 })} />
-        <Tile label={t("last7")} value={week.reviews ? percent(week.rate) : "\u2014"} hint={t("accuracyLabel")} />
+        <Tile label={t("last7")} value={week.reviews ? percent(week.rate) : "—"} hint={t("accuracyLabel")} />
         <Tile label={t("minutesLabel")} value={formatMinutes((todayLog?.seconds ?? 0), lang)} />
       </section>
       <section className="rounded-3xl border bg-card p-4 sm:p-6">
