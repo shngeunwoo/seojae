@@ -20,6 +20,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Input } from "@/components/ui/input"
 import { deckBlurb, deckTitle, dueLabel } from "@/lib/labels"
+import { studyPath } from "@/lib/routes"
 import { isDue, masteryOf } from "@/lib/srs"
 import { deleteCard, deleteDeck, downloadText, restoreCard, toggleFavorite, useAppState, addDrafts } from "@/lib/store"
 import { csvCell, draftsFromCsv } from "@/lib/text"
@@ -52,7 +53,7 @@ export function DeckView({ deckId }: { deckId: string }) {
 
   useEffect(() => {
     if (!deck) return
-    document.title = `${deckTitle(deck, lang)} \u00b7 ${t("brand")}`
+    document.title = `${deckTitle(deck, lang)} · ${t("brand")}`
   }, [deck, lang, t])
 
   useEffect(() => {
@@ -160,7 +161,7 @@ export function DeckView({ deckId }: { deckId: string }) {
           ) : null}
         </div>
         <div className="flex flex-wrap gap-2">
-          <Button className="h-10" nativeButton={false} render={<Link href={`/study/${deck.id}`} />}>{t("study")}</Button>
+          <Button className="h-10" nativeButton={false} render={<Link href={studyPath(deck.id)} />}>{t("study")}</Button>
           <Button
             type="button"
             variant="outline"
