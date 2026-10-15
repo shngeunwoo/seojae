@@ -15,10 +15,7 @@ const nextConfig: NextConfig = {
         basePath: "/seojae",
         assetPrefix: "/seojae",
       }
-    : {
-        cacheComponents: true,
-        partialPrefetching: true,
-      }),
+    : {}),
   turbopack: {
     rules: {
       "*.css": {
