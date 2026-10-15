@@ -22,8 +22,6 @@ export const metadata: Metadata = {
   applicationName: "서재",
 }
 
-export const instant = false
-
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,

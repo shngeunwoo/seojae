@@ -48,6 +48,6 @@ GITHUB_PAGES=true npm run build
 
 진행 중인 학습은 탭을 닫아도 이어서 할 수 있습니다.
 
-## 글뽘
+## 글꼴
 
-화면 글뽘은 [Pretendard](https://github.com/orioncactus/pretendard)입니다. SIL Open Font License 1.1. 라이선스 원문은 `public/fonts/OFL.txt`에 있습니다. 한글은 jsDelivr의 가변 서브셋으로 불러오고, 영문 제목에는 Fraunces를 쓰니다.
+화면 글꼴은 [Pretendard](https://github.com/orioncactus/pretendard)입니다. SIL Open Font License 1.1. 라이선스 원문은 `public/fonts/OFL.txt`에 있습니다. 한글은 jsDelivr의 가변 서브셋으로 불러오고, 영문 제목에는 Fraunces를 쓰니다.
