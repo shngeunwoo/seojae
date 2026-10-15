@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, type ReactNode } from "react"
+import { Suspense, useEffect, type ReactNode } from "react"
 import { Toaster } from "sonner"
 import { CircleCheckIcon, InfoIcon, OctagonXIcon, TriangleAlertIcon } from "lucide-react"
 import { Mark } from "@/components/bits"
@@ -52,7 +52,9 @@ export function AppProvider({ children }: { children: ReactNode }) {
         </div>
       )}
       <div inert={state.ready ? undefined : true} aria-hidden={state.ready ? undefined : true}>
-        <Shell>{children}</Shell>
+        <Suspense>
+          <Shell>{children}</Shell>
+        </Suspense>
       </div>
       <Toaster
         theme={resolved}
