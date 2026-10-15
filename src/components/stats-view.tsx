@@ -16,6 +16,7 @@ import {
 import { masteryOf } from "@/lib/srs"
 import { useAppState } from "@/lib/store"
 import type { Mastery } from "@/lib/types"
+import { deckPath } from "@/lib/routes"
 import { useI18n } from "@/lib/use-i18n"
 import { cn } from "@/lib/utils"
 
@@ -83,7 +84,7 @@ export function StatsView() {
                 return (
                   <span
                     key={day.key}
-                    title={`${day.key} \u00b7 ${reviews}`}
+                    title={`${day.key} · ${reviews}`}
                     className={cn(
                       "size-3.5 rounded-[3px]",
                       day.future ? "bg-transparent" : heatClass(reviews),
@@ -120,7 +121,7 @@ export function StatsView() {
             ))}
           </ul>
           <p className="mt-4 text-xs text-muted-foreground">
-            {t("totalWords")} \u00b7 {state.cards.length} \u00b7 {t("todayShort", { n: parts.today })}
+            {t("totalWords")} · {state.cards.length} · {t("todayShort", { n: parts.today })}
           </p>
         </div>
         <div className="rounded-3xl border bg-card p-5">
@@ -135,7 +136,7 @@ export function StatsView() {
                 const pct = deckCards.length ? Math.round((mastered / deckCards.length) * 100) : 0
                 return (
                   <li key={deck.id}>
-                    <Link href={`/deck/${deck.id}`} className="block rounded-xl hover:bg-muted/60">
+                    <Link href={deckPath(deck.id)} className="block rounded-xl hover:bg-muted/60">
                       <span className="flex items-center justify-between gap-3 text-sm">
                         <span className="flex min-w-0 items-center gap-2">
                           <span data-color={deck.color} className="swatch size-2.5 rounded-full" />
@@ -162,7 +163,7 @@ export function StatsView() {
           <ul className="mt-3 divide-y overflow-hidden rounded-3xl border bg-card">
             {hard.map((card) => (
               <li key={card.id}>
-                <Link href={`/deck/${card.deckId}#word-${card.id}`} className="flex items-baseline justify-between gap-4 px-4 py-3 hover:bg-muted/50">
+                <Link href={deckPath(card.deckId, `word-${card.id}`)} className="flex items-baseline justify-between gap-4 px-4 py-3 hover:bg-muted/50">
                   <span>
                     <Phrase text={card.term} lang={card.termLang} className="text-lg" />
                     <span className="mt-0.5 block text-sm text-muted-foreground">{card.meaning}</span>

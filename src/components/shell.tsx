@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { usePathname } from "next/navigation"
+import { usePathname, useSearchParams } from "next/navigation"
 import { useEffect, useState, type ReactNode } from "react"
 import { ChartColumn, House, Keyboard, Library, Plus, Settings } from "lucide-react"
 import { Mark } from "@/components/bits"
@@ -24,12 +24,14 @@ import {
 } from "@/components/ui/dialog"
 import { Kbd } from "@/components/bits"
 import { deckTitle, todayParts } from "@/lib/labels"
+import { deckPath } from "@/lib/routes"
 import { useAppState } from "@/lib/store"
 import { useI18n } from "@/lib/use-i18n"
 import { cn } from "@/lib/utils"
 
 export function Shell({ children }: { children: ReactNode }) {
   const pathname = usePathname()
+  const searchParams = useSearchParams()
   const state = useAppState()
   const { lang, t } = useI18n()
   const [deckOpen, setDeckOpen] = useState(false)
@@ -92,11 +94,11 @@ export function Shell({ children }: { children: ReactNode }) {
               state.cards.filter((card) => card.deckId === deck.id),
               state.clock,
             ).today
-            const active = pathname === `/deck/${deck.id}`
+            const active = pathname === "/deck" && searchParams.get("id") === deck.id
             return (
               <Link
                 key={deck.id}
-                href={`/deck/${deck.id}`}
+                href={deckPath(deck.id)}
                 className={cn(
                   "flex items-center gap-2 rounded-xl px-2 py-2 text-sm",
                   active ? "bg-foreground/5 font-medium" : "text-muted-foreground hover:bg-foreground/5 hover:text-foreground",
@@ -161,7 +163,7 @@ export function Shell({ children }: { children: ReactNode }) {
             {state.decks.map((deck) => (
               <Link
                 key={deck.id}
-                href={`/deck/${deck.id}`}
+                href={deckPath(deck.id)}
                 onClick={() => setSheetOpen(false)}
                 className="flex items-center gap-3 rounded-xl px-2 py-3 hover:bg-muted"
               >

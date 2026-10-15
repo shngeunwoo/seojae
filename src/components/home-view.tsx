@@ -12,6 +12,7 @@ import { formatDate } from "@/lib/format"
 import { greetingKey } from "@/lib/i18n"
 import { deckBlurb, deckTitle, libraryToday, streakCount, todayParts } from "@/lib/labels"
 import { buildQueue } from "@/lib/study"
+import { deckPath, studyPath } from "@/lib/routes"
 import { setSession, useAppState } from "@/lib/store"
 import type { Scope } from "@/lib/types"
 import { useI18n } from "@/lib/use-i18n"
@@ -26,7 +27,7 @@ export function HomeView() {
   const [deckOpen, setDeckOpen] = useState(false)
 
   useEffect(() => {
-    document.title = `${t("brand")} \u00b7 Seojae`
+    document.title = `${t("brand")} · Seojae`
   }, [t])
 
   const parts = useMemo(
@@ -76,7 +77,7 @@ export function HomeView() {
       paused: false,
       activeSeconds: 0,
     })
-    router.push("/study/all")
+    router.push(studyPath("all"))
   }
 
   const deckName = new Map(state.decks.map((deck) => [deck.id, deckTitle(deck, lang)]))
@@ -119,7 +120,7 @@ export function HomeView() {
                 {parts.review > 0 ? t("startToday") : t("startFresh")}
               </Button>
             ) : state.decks.length ? (
-              <Button className="h-11 px-4" nativeButton={false} render={<Link href={`/deck/${state.decks[0].id}`} />}>
+              <Button className="h-11 px-4" nativeButton={false} render={<Link href={deckPath(state.decks[0].id)} />}>
                 {t("browse")}
               </Button>
             ) : (
@@ -158,7 +159,7 @@ export function HomeView() {
                 return (
                   <li key={deck.id}>
                     <Link
-                      href={`/deck/${deck.id}`}
+                      href={deckPath(deck.id)}
                       className="shadow-lift grid gap-4 rounded-3xl border bg-card px-4 py-4 transition hover:-translate-y-0.5 sm:grid-cols-[auto_1fr_auto] sm:items-center sm:px-5"
                     >
                       <span data-color={deck.color} className="swatch hidden size-11 rounded-2xl sm:block" />
@@ -197,10 +198,10 @@ export function HomeView() {
               {t("goalOf", { n: studied, goal: state.settings.dailyGoal })}
             </p>
             <p className="mt-3 text-sm text-muted-foreground">
-              {t("streak")} \u00b7 {t("streakDays", { n: streak })}
+              {t("streak")} · {t("streakDays", { n: streak })}
             </p>
             <p className="text-sm text-muted-foreground">
-              {t("mastered")} \u00b7 {parts.mastered}
+              {t("mastered")} · {parts.mastered}
             </p>
           </div>
           <Ring value={studied} max={state.settings.dailyGoal} caption={t("goal")} />
@@ -223,13 +224,13 @@ export function HomeView() {
                 {results.map((card) => (
                   <li key={card.id}>
                     <Link
-                      href={`/deck/${card.deckId}#word-${card.id}`}
+                      href={deckPath(card.deckId, `word-${card.id}`)}
                       className="block rounded-xl px-2 py-2 hover:bg-muted"
                     >
                       <Phrase text={card.term} lang={card.termLang} className="text-base" />
                       <span className="mt-0.5 block truncate text-sm text-muted-foreground">
                         {card.meaning}
-                        <span className="px-1.5">\u00b7</span>
+                        <span className="px-1.5">·</span>
                         {deckName.get(card.deckId)}
                       </span>
                     </Link>
@@ -248,7 +249,7 @@ export function HomeView() {
                 <ul className="mt-2 grid gap-1">
                   {recent.map((card) => (
                     <li key={card.id}>
-                      <Link href={`/deck/${card.deckId}#word-${card.id}`} className="block rounded-xl px-2 py-2 hover:bg-muted">
+                      <Link href={deckPath(card.deckId, `word-${card.id}`)} className="block rounded-xl px-2 py-2 hover:bg-muted">
                         <Phrase text={card.term} lang={card.termLang} />
                         <span className="block truncate text-sm text-muted-foreground">{card.meaning}</span>
                       </Link>
