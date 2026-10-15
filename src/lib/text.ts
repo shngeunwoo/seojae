@@ -25,7 +25,7 @@ export function normalizeAnswer(value: string) {
 
 export function acceptedAnswers(answer: string) {
   const parts = answer
-    .split(/\s*(?:\/|\|;)\s*/)
+    .split(/\s*(?:\/|\||;)\s*/)
     .map(normalizeAnswer)
     .filter(Boolean)
   const full = normalizeAnswer(answer)
@@ -68,7 +68,7 @@ export function gradeTyped(input: string, answer: string): TypedGrade {
 export function parseTags(input: string) {
   const out: string[] = []
   const seen = new Set<string>()
-  for (const part of input.split(/[,,，、]/)) {
+  for (const part of input.split(/[,，、]/)) {
     const tag = part.trim().slice(0, 24)
     if (!tag) continue
     const key = tag.toLocaleLowerCase()
@@ -100,7 +100,7 @@ export function parseBulk(text: string): CardDraft[] {
     if (!line || line.startsWith("#")) continue
     let parts: string[] | null = null
     if (line.includes("\t")) parts = line.split("\t")
-    else if (/\s[-\u2013\u2014]\s/.test(line)) parts = line.split(/\s[-\u2013\u2014]\s/)
+    else if (/\s[-–—]\s/.test(line)) parts = line.split(/\s[-–—]\s/)
     else if (line.includes("|")) parts = line.split("|")
     else continue
     const term = parts[0]?.trim() ?? ""
@@ -161,27 +161,27 @@ const HEADER_MAP: Record<string, keyof CardDraft | "skip"> = {
   term: "term",
   word: "term",
   front: "term",
-  "단어": "term",
+  단어: "term",
   meaning: "meaning",
   back: "meaning",
   definition: "meaning",
-  "뜻": "meaning",
-  "의미": "meaning",
+  뜻: "meaning",
+  의미: "meaning",
   example: "example",
-  "예문": "example",
+  예문: "example",
   examplemeaning: "exampleMeaning",
   exampletranslation: "exampleMeaning",
-  "예문뜻": "exampleMeaning",
-  "해석": "exampleMeaning",
+  예문뜻: "exampleMeaning",
+  해석: "exampleMeaning",
   pos: "pos",
   part: "pos",
-  "품사": "pos",
+  품사: "pos",
   tags: "tags",
   tag: "tags",
-  "태그": "tags",
+  태그: "tags",
   notes: "notes",
   note: "notes",
-  "메모": "notes",
+  메모: "notes",
 }
 
 export function draftsFromCsv(input: string): CardDraft[] {
