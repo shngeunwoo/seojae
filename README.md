@@ -29,13 +29,13 @@ GITHUB_PAGES=true npm run build
 - 저장소: https://github.com/shngeunwoo/seojae
 - GitHub Pages: https://shngeunwoo.github.io/seojae/
 
-`main`에 푸시하면 GitHub Actions가 사이트를 빌드해 Pages에 올립니다. 처음 한 번은 저장소 **Settings → Pages → Source**를 **GitHub Actions**로 고르면 됩니다.
+`main`에 푸시하면 GitHub Actions가 사이트를 빌드해 `gh-pages` 브랜치에 올립니다. 처음 한 번은 저장소 **Settings → Pages → Source**를 **Deploy from a branch**, Branch는 **gh-pages**로 고르면 됩니다.
 
 ## 할 수 있는 일
 
 - 단어장 만들기, 이름과 색 바꾸기, 지우기
 - 단어 추가와 수정. 품사, 예문, 해석, 태그, 메모, 즐겨찾기
-- 영어와 한국어를 어느 쪽에나 두기. 비슷한 뜻은 `/` 로 나눕니다
+- 영어와 한국어를 어느 쪽에나 두기. 비슷한 뜻은 `/` 로 나눍니다
 - 여러 줄 붙여넣기. `단어 - 뜻`, 탭, `|` 를 읽습니다
 - JSON 백업과 CSV 가져오기, 내보내기
 - 오늘 복습, 새 단어, 약한 단어, 즐겨찾기, 전체
@@ -50,4 +50,4 @@ GITHUB_PAGES=true npm run build
 
 ## 글꼴
 
-화면 글꼴은 [Pretendard](https://github.com/orioncactus/pretendard)입니다. SIL Open Font License 1.1. 라이선스 원문은 `public/fonts/OFL.txt`에 있습니다. 한글은 jsDelivr의 가변 서브셋으로 불러오고, 영문 제목에는 Fraunces를 씁니다.
+화면 글꼴은 [Pretendard](https://github.com/orioncactus/pretendard)입니다. SIL Open Font License 1.1. 라이선스 원문은 `public/fonts/OFL.txt`에 있습니다. 한글은 jsDelivr의 가변 서브셋으로 불러오고, 영문 제목에는 Fraunces를 쓹니다.
