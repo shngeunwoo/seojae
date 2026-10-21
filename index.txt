@@ -1,0 +1,30 @@
+1:"$Sreact.fragment"
+2:"/seojae/_next/static/chunks/27gjg8e11zukd.js"
+3:"/seojae/_next/static/chunks/0rumg3pdakg1x.js"
+4:"/seojae/_next/static/chunks/42f9anqlr0odf.js"
+5:"/seojae/_next/static/chunks/36dk245ykk2l7.js"
+6:"/seojae/_next/static/chunks/1iib6dfr6xr_x.js"
+7:"/seojae/_next/static/chunks/211_knjb1dxaj.js"
+8:I[1661,["$2","$3","$4","$5","$6","$7"],"AppProvider"]
+9:I[39756,["$2","$3","$4","$5","$6","$7"],"default"]
+a:"/seojae/_next/static/chunks/3n4kd8dzew2xt.js"
+b:I[58298,["$2","$3","$4","$5","$6","$7","$a"],"default"]
+c:I[37457,["$2","$3","$4","$5","$6","$7"],"default"]
+d:I[22016,["$2","$3","$4","$5","$6","$7"],""]
+f:"/seojae/_next/static/chunks/3mwsazzw5wkt3.js"
+10:I[65814,["$2","$3","$4","$5","$6","$7","$f"],"HomeView"]
+11:I[97367,["$2","$3","$4","$5","$6","$7"],"OutletBoundary"]
+12:"$Sreact.suspense"
+14:"ViewportBoundary"
+15:I[97367,["$2","$3","$4","$5","$6","$7"],"$14"]
+17:"MetadataBoundary"
+18:I[97367,["$2","$3","$4","$5","$6","$7"],"$17"]
+1a:I[68027,["$2","$3","$4","$5","$6","$7"],"default",1]
+:HL["/seojae/_next/static/chunks/33t939uu6fj8l.css","style"]
+:HL["/seojae/_next/static/media/03bda585a99c6450-s.p.32sris142tqlb.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
+e:[["children",{"s":"__PAGE__","h":512,"d":{"r":["$","$1","c",{"children":[["$","$L10",null,{}],[["$","script","script-0",{"src":"/seojae/_next/static/chunks/3mwsazzw5wkt3.js","async":true,"nonce":"$undefined"}]],["$","$L11",null,{"children":["$","$12",null,{"name":"Next.MetadataOutlet","children":"$@13"}]}]]}],"p":false,"v":null}}]]
+0:{"P":null,"c":["",""],"q":"","i":false,"t":{"t":{"s":"","h":528,"d":{"r":["$","$1","c",{"children":[[["$","link","0",{"rel":"stylesheet","href":"/seojae/_next/static/chunks/33t939uu6fj8l.css","precedence":"next","crossOrigin":"$undefined","nonce":"$undefined"}],["$","script","script-0",{"src":"/seojae/_next/static/chunks/27gjg8e11zukd.js","async":true,"nonce":"$undefined"}],["$","script","script-1",{"src":"/seojae/_next/static/chunks/0rumg3pdakg1x.js","async":true,"nonce":"$undefined"}],["$","script","script-2",{"src":"/seojae/_next/static/chunks/42f9anqlr0odf.js","async":true,"nonce":"$undefined"}],["$","script","script-3",{"src":"/seojae/_next/static/chunks/36dk245ykk2l7.js","async":true,"nonce":"$undefined"}],["$","script","script-4",{"src":"/seojae/_next/static/chunks/1iib6dfr6xr_x.js","async":true,"nonce":"$undefined"}],["$","script","script-5",{"src":"/seojae/_next/static/chunks/211_knjb1dxaj.js","async":true,"nonce":"$undefined"}]],["$","html",null,{"lang":"ko","className":"_30ERtG_variable h-full antialiased","suppressHydrationWarning":true,"children":["$","body",null,{"className":"min-h-dvh","children":[["$","script",null,{"dangerouslySetInnerHTML":{"__html":"(function(){try{var t=\"system\";var raw=localStorage.getItem(\"seojae.v1\");if(raw){var parsed=JSON.parse(raw);if(parsed&&parsed.settings&&parsed.settings.theme)t=parsed.settings.theme;}var dark=t===\"dark\"||(t!==\"light\"&&matchMedia(\"(prefers-color-scheme: dark)\").matches);var root=document.documentElement;root.classList.toggle(\"dark\",dark);root.style.colorScheme=dark?\"dark\":\"light\";}catch(e){}})();"}}],["$","$L8",null,{"children":["$","$L9",null,{"parallelRouterKey":"children","error":"$b","errorStyles":[],"errorScripts":[["$","script","script-0",{"src":"/seojae/_next/static/chunks/3n4kd8dzew2xt.js","async":true,"nonce":"$undefined"}]],"template":["$","$Lc",null,{}],"templateStyles":"$undefined","templateScripts":"$undefined","notFound":[["$","div",null,{"className":"mx-auto flex min-h-[70vh] max-w-md flex-col items-center justify-center px-6 text-center","children":[["$","h1",null,{"className":"text-2xl font-medium","children":"없는 페이지예요"}],["$","p",null,{"className":"mt-2 text-sm leading-6 text-muted-foreground","children":"주소가 바뀌었거나 지워진 화면이에요."}],["$","$Ld",null,{"href":"/","className":"mt-6 inline-flex h-10 items-center rounded-xl bg-primary px-4 text-sm text-primary-foreground","children":"오늘로"}]]}],[]],"forbidden":"$undefined","unauthorized":"$undefined"}]}]]}]}]]}],"p":false,"v":null},"c":"$Qe"},"h":{"r":["$","$1","h",{"children":[null,["$","$L15",null,{"children":"$L16"}],["$","$L18",null,{"children":[["$","div",null,{"hidden":true,"children":["$","$12",null,{"name":"Next.Metadata","children":"$L19"}]}],null]}],["$","meta",null,{"name":"next-size-adjust","content":""}]]}],"p":false,"v":null}},"m":"$undefined","G":["$1a",[["$","link","0",{"rel":"stylesheet","href":"/seojae/_next/static/chunks/33t939uu6fj8l.css","precedence":"next","crossOrigin":"$undefined","nonce":"$undefined"}]]],"S":true,"r":"$undefined","s":"$undefined","a":"$undefined","l":"$undefined","p":"$undefined","d":"$undefined","b":"W_hkmjjQuXQHVLT3xomp2"}
+16:[["$","meta","0",{"charSet":"utf-8"}],["$","meta","1",{"name":"viewport","content":"width=device-width, initial-scale=1"}],["$","meta","2",{"name":"theme-color","content":"#f3efe6","media":"(prefers-color-scheme: light)"}],["$","meta","3",{"name":"theme-color","content":"#141714","media":"(prefers-color-scheme: dark)"}]]
+1b:I[27201,["$2","$3","$4","$5","$6","$7"],"IconMark"]
+13:null
+19:[["$","title","0",{"children":"서재"}],["$","meta","1",{"name":"description","content":"영어와 한국어를 한자리에서 외우는 단어장. 카드, 퀴즈, 받아쓰기, 듣기, 간격 반복."}],["$","meta","2",{"name":"application-name","content":"서재"}],["$","link","3",{"rel":"manifest","href":"/seojae/manifest.webmanifest","crossOrigin":"$undefined"}],["$","link","4",{"rel":"icon","href":"/seojae/icon.svg?icon.0tjuhu62f5t5g.svg","sizes":"any","type":"image/svg+xml"}],["$","$L1b","5",{}]]
