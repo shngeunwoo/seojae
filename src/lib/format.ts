@@ -26,7 +26,7 @@ export function formatDate(ts: number, lang: Lang) {
 export function formatSpan(days: number, lang: Lang) {
   if (days < 1) {
     const minutes = Math.max(1, Math.round(days * 24 * 60))
-    if (minutes < 90) return lang === "ko" ? `${minutes}분` : `${minutes}m`
+    if (minutes < 60) return lang === "ko" ? `${minutes}분` : `${minutes}m`
     const hours = Math.max(1, Math.round(minutes / 60))
     return lang === "ko" ? `${hours}시간` : `${hours}h`
   }

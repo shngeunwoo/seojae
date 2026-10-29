@@ -1,6 +1,17 @@
 import type { Card, Grade, Mastery } from "@/lib/types"
 
 const MIN_EASE = 1.3
+const MINUTE = 1 / (24 * 60)
+const HOUR = 1 / 24
+
+export const GRADE_INTERVAL_DAYS: Record<Grade, number> = {
+  0: 1 * MINUTE,
+  1: 10 * MINUTE,
+  2: 1 * HOUR,
+  3: 6 * HOUR,
+  4: 12 * HOUR,
+  5: 4,
+}
 
 export function masteryOf(card: Card): Mastery {
   if (card.lastReviewed == null) return "new"
@@ -22,24 +33,14 @@ export function isDue(card: Card, now: number) {
 function quality(grade: Grade) {
   if (grade === 0) return 1
   if (grade === 1) return 3
-  if (grade === 2) return 4
+  if (grade === 2) return 3
+  if (grade === 3) return 4
+  if (grade === 4) return 4
   return 5
 }
 
-export function nextIntervalDays(card: Card, grade: Grade) {
-  if (grade === 0) return 10 / (24 * 60)
-  if (card.repetitions === 0) {
-    if (grade === 1) return 0.5
-    if (grade === 3) return 4
-    return 1
-  }
-  if (card.repetitions === 1) {
-    if (grade === 1) return 1
-    if (grade === 3) return 8
-    return 3
-  }
-  const factor = grade === 1 ? 1.2 : grade === 3 ? card.ease * 1.15 : card.ease
-  return Math.max(1, Math.round(card.interval * factor * 10) / 10)
+export function nextIntervalDays(_card: Card, grade: Grade) {
+  return GRADE_INTERVAL_DAYS[grade]
 }
 
 export function applyReview(card: Card, grade: Grade, now: number): Card {
@@ -57,6 +58,7 @@ export function applyReview(card: Card, grade: Grade, now: number): Card {
     repetitions += 1
     ease = ease + (0.1 - (5 - q) * (0.08 + (5 - q) * 0.02))
     if (grade === 1) ease -= 0.14
+    if (grade === 5) ease += 0.05
     ease = Math.max(MIN_EASE, Math.round(ease * 100) / 100)
   }
 

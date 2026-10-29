@@ -15,7 +15,7 @@ export type Scope = (typeof SCOPES)[number]
 
 export type Lang = "ko" | "en"
 export type ThemeMode = "light" | "dark" | "system"
-export type Grade = 0 | 1 | 2 | 3
+export type Grade = 0 | 1 | 2 | 3 | 4 | 5
 export type Mastery = "new" | "learning" | "review" | "mastered"
 
 export type Card = {
@@ -89,6 +89,7 @@ export type Persisted = {
   cards: Card[]
   settings: Settings
   logs: Record<string, DayLog>
+  catalogRev?: number
 }
 
 export type Session = {
