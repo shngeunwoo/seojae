@@ -15,11 +15,13 @@ import type { Card, Direction, Grade, Lang } from "@/lib/types"
 import { useI18n } from "@/lib/use-i18n"
 import { cn } from "@/lib/utils"
 
-const grades: { grade: Grade; key: "again" | "hard" | "good" | "easy"; hotkey: string }[] = [
+const grades: { grade: Grade; key: "again" | "hard" | "normal" | "good" | "easy" | "perfect"; hotkey: string }[] = [
   { grade: 0, key: "again", hotkey: "1" },
   { grade: 1, key: "hard", hotkey: "2" },
-  { grade: 2, key: "good", hotkey: "3" },
-  { grade: 3, key: "easy", hotkey: "4" },
+  { grade: 2, key: "normal", hotkey: "3" },
+  { grade: 3, key: "good", hotkey: "4" },
+  { grade: 4, key: "easy", hotkey: "5" },
+  { grade: 5, key: "perfect", hotkey: "6" },
 ]
 
 export function StudyBar({
@@ -96,6 +98,10 @@ export function FlashMode({
     return () => stopSpeaking()
   }, [card.id, face.prompt, autoSpeak, tts, rate])
 
+  function toggleFlip() {
+    setShownId((current) => (current === card.id ? null : card.id))
+  }
+
   function grade(value: Grade) {
     if (!flipped || sent.current) return
     sent.current = true
@@ -107,7 +113,7 @@ export function FlashMode({
       if (isTyping(event.target)) return
       if (event.key === " " || event.key === "Enter") {
         event.preventDefault()
-        setShownId(card.id)
+        toggleFlip()
         return
       }
       if (event.key.toLowerCase() === "s" && tts) {
@@ -139,7 +145,7 @@ export function FlashMode({
             text={face.prompt}
             textLang={face.promptLang}
             hint={t("pressFlip")}
-            onClick={() => setShownId(card.id)}
+            onClick={toggleFlip}
             action={
               tts ? (
                 <SpeakButton label={t("speak")} onClick={() => void speak(face.prompt, rate)} />
@@ -154,6 +160,7 @@ export function FlashMode({
             hint={card.notes}
             example={showExample ? face.example : ""}
             exampleTr={showExample ? face.exampleTr : ""}
+            onClick={toggleFlip}
             action={
               tts ? (
                 <SpeakButton label={t("speak")} onClick={() => void speak(face.answer, rate)} />
@@ -163,26 +170,31 @@ export function FlashMode({
         </div>
       </div>
       {flipped ? (
-        <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
-          {grades.map((item) => (
-            <button
-              key={item.grade}
-              type="button"
-              onClick={() => grade(item.grade)}
-              className="rounded-2xl border bg-card px-3 py-3 text-left transition hover:border-foreground/30"
-            >
-              <span className="flex items-center justify-between gap-2 text-sm font-medium">
-                {t(item.key)}
-                <Kbd>{item.hotkey}</Kbd>
-              </span>
-              <span className="mt-1 block text-xs text-muted-foreground">
-                {formatSpan(nextIntervalDays(card, item.grade), lang)}
-              </span>
-            </button>
-          ))}
+        <div className="grid gap-2">
+          <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
+            {grades.map((item) => (
+              <button
+                key={item.grade}
+                type="button"
+                onClick={() => grade(item.grade)}
+                className="rounded-2xl border bg-card px-3 py-3 text-left transition hover:border-foreground/30"
+              >
+                <span className="flex items-center justify-between gap-2 text-sm font-medium">
+                  {t(item.key)}
+                  <Kbd>{item.hotkey}</Kbd>
+                </span>
+                <span className="mt-1 block text-xs text-muted-foreground">
+                  {formatSpan(nextIntervalDays(card, item.grade), lang)}
+                </span>
+              </button>
+            ))}
+          </div>
+          <Button type="button" variant="outline" className="h-11" onClick={toggleFlip}>
+            {t("flipBack")}
+          </Button>
         </div>
       ) : (
-        <Button type="button" className="h-11" onClick={() => setShownId(card.id)}>
+        <Button type="button" className="h-11" onClick={toggleFlip}>
           {t("reveal")}
         </Button>
       )}
@@ -284,7 +296,7 @@ export function QuizMode({
     setPicked(choice.id)
     sent.current = true
     window.setTimeout(() => {
-      onGrade(choice.correct ? 2 : 0, choice.correct ? "correct" : "wrong")
+      onGrade(choice.correct ? 3 : 0, choice.correct ? "correct" : "wrong")
     }, choice.correct ? 620 : 1100)
   }
 
@@ -362,7 +374,7 @@ export function TypeMode({
     }
     setResult(grade)
     sent.current = true
-    const score: Grade = grade === "correct" && !hinted.current ? 2 : 1
+    const score: Grade = grade === "correct" && !hinted.current ? 3 : 1
     window.setTimeout(() => onGrade(score, "correct"), grade === "close" ? 900 : 520)
   }
 
@@ -447,7 +459,10 @@ export function ListenMode({
 }) {
   const { t } = useI18n()
   const face = facing(card, direction, index)
-  const speechOk = typeof window !== "undefined" && canSpeak()
+  const [speechOk, setSpeechOk] = useState(false)
+  useEffect(() => {
+    setSpeechOk(canSpeak())
+  }, [])
   const [round] = useState(() => ({
     id: card.id,
     choices: choicesFor(card, index, direction, pool),
@@ -466,7 +481,7 @@ export function ListenMode({
     setPicked(choice.id)
     sent.current = true
     window.setTimeout(() => {
-      onGrade(choice.correct ? 2 : 0, choice.correct ? "correct" : "wrong")
+      onGrade(choice.correct ? 3 : 0, choice.correct ? "correct" : "wrong")
     }, choice.correct ? 620 : 1100)
   }
 
@@ -566,7 +581,7 @@ export function MatchMode({
         done.current = true
         const results = cards.map((card) => {
           const correct = !mistakes.current.has(card.id)
-          return { id: card.id, grade: (correct ? 2 : 1) as Grade, correct }
+          return { id: card.id, grade: (correct ? 3 : 1) as Grade, correct }
         })
         window.setTimeout(() => onComplete(results), 450)
       }
