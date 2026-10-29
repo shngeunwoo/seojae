@@ -191,6 +191,7 @@
 
 .flip-scene {
   perspective: 1200px;
+  -webkit-perspective: 1200px;
   position: relative;
 }
 .flip-inner {
@@ -198,29 +199,40 @@
   min-height: inherit;
   height: 100%;
   transform-style: preserve-3d;
+  -webkit-transform-style: preserve-3d;
   transition: transform 0.55s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 .flip-inner.is-flipped {
   transform: rotateY(180deg);
+  -webkit-transform: rotateY(180deg);
 }
 .flip-face {
   position: absolute;
   inset: 0;
   backface-visibility: hidden;
-  overflow: auto;
+  -webkit-backface-visibility: hidden;
+  transform: rotateY(0deg) translateZ(1px);
+  -webkit-transform: rotateY(0deg) translateZ(1px);
 }
 .face-back {
-  transform: rotateY(180deg);
+  transform: rotateY(180deg) translateZ(1px);
+  -webkit-transform: rotateY(180deg) translateZ(1px);
+}
+.flip-face-body {
+  overflow: auto;
+  overscroll-behavior: contain;
 }
 
-@media (prefers-reduced-motion: reduce) {
+@media (max-width: 640px), (prefers-reduced-motion: reduce) {
   .flip-inner,
   .flip-inner.is-flipped,
   .flip-face,
   .face-back {
     transform: none;
+    -webkit-transform: none;
     transition: none;
     backface-visibility: visible;
+    -webkit-backface-visibility: visible;
   }
   .flip-inner:not(.is-flipped) .face-back,
   .flip-inner.is-flipped .flip-face:not(.face-back) {
