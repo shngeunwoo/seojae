@@ -248,3 +248,23 @@ export function hydrateStore() {
   loaded = true
   listeners.forEach((listener) => listener())
 }
+
+function getServerSnapshot() {
+  return SERVER_STATE
+}
+
+function subscribe(listener: () => void) {
+  listeners.add(listener)
+  return () => listeners.delete(listener)
+}
+
+function commit(next: Runtime, options?: { persist?: boolean; session?: boolean }) {
+  runtime = { ...next, ready: true, clock: Date.now() }
+  if (options?.session !== false) writeSession(runtime.session)
+  if (options?.persist !== false) schedulePersist()
+  listeners.forEach((listener) => listener())
+}
+
+export function useAppState() {
+  return useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot)
+}
