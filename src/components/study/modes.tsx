@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useRef, useState, useSyncExternalStore, type ReactNode } from "react"
+import { useEffect, useRef, useState, useSyncExternalStore } from "react"
 import { Volume2 } from "lucide-react"
 import { Kbd, Phrase } from "@/components/bits"
 import { Button } from "@/components/ui/button"
@@ -10,7 +10,7 @@ import { facing, buildChoices, type Choice } from "@/lib/study"
 import { nextIntervalDays } from "@/lib/srs"
 import { canSpeak, speak, stopSpeaking } from "@/lib/speech"
 import { gradeTyped, shuffle } from "@/lib/text"
-import { toggleFavorite } from "@/lib/store"
+import { toggleFavorite, updateSettings } from "@/lib/store"
 import type { Card, Direction, Grade, Lang } from "@/lib/types"
 import { useI18n } from "@/lib/use-i18n"
 import { cn } from "@/lib/utils"
@@ -88,18 +88,37 @@ export function FlashMode({
   const flipped = shownId === card.id
   const sent = useRef(false)
 
+  const speechOk = useSyncExternalStore(
+    () => () => {},
+    canSpeak,
+    () => false,
+  )
+  const heard = flipped ? face.answer : face.prompt
+
   useEffect(() => {
     sent.current = false
   }, [card.id])
 
   useEffect(() => {
-    if (!autoSpeak || !tts) return
-    void speak(face.prompt, rate)
+    if (!autoSpeak || !tts || !speechOk) return
+    void speak(heard, rate)
     return () => stopSpeaking()
-  }, [card.id, face.prompt, autoSpeak, tts, rate])
+  }, [card.id, flipped, heard, autoSpeak, tts, rate, speechOk])
 
   function toggleFlip() {
     setShownId((current) => (current === card.id ? null : card.id))
+  }
+
+  function playCurrent() {
+    if (!speechOk) return
+    if (!tts) updateSettings({ tts: true })
+    void speak(heard, rate)
+  }
+
+  function toggleAutoSpeak() {
+    const next = !autoSpeak
+    updateSettings({ autoSpeak: next, tts: next || tts })
+    if (next && speechOk) void speak(heard, rate)
   }
 
   function grade(value: Grade) {
@@ -116,9 +135,9 @@ export function FlashMode({
         toggleFlip()
         return
       }
-      if (event.key.toLowerCase() === "s" && tts) {
+      if (event.key.toLowerCase() === "s") {
         event.preventDefault()
-        void speak(flipped ? face.answer : face.prompt, rate)
+        playCurrent()
       }
       if (event.key.toLowerCase() === "f") {
         event.preventDefault()
@@ -136,8 +155,33 @@ export function FlashMode({
   })
 
   return (
-    <div className="grid gap-5">
-      <div className="flip-scene min-h-[22rem] sm:min-h-[26rem]">
+    <div className="grid gap-4">
+      <div className="grid grid-cols-2 gap-2">
+        <Button
+          type="button"
+          variant="outline"
+          className="h-11"
+          disabled={!speechOk}
+          onClick={playCurrent}
+        >
+          <Volume2 className="size-4" />
+          {t("speak")}
+        </Button>
+        <Button
+          type="button"
+          variant={autoSpeak && tts ? "default" : "outline"}
+          className="h-11"
+          disabled={!speechOk}
+          aria-pressed={autoSpeak && tts}
+          onClick={toggleAutoSpeak}
+        >
+          {t("speakOnMove")}
+        </Button>
+      </div>
+      {!speechOk ? (
+        <p className="text-center text-xs text-muted-foreground">{t("ttsMissing")}</p>
+      ) : null}
+      <div className="flip-scene min-h-[16rem] sm:min-h-[26rem]">
         <div className={cn("flip-inner", flipped && "is-flipped")}>
           <CardFace
             kind="front"
@@ -146,11 +190,6 @@ export function FlashMode({
             textLang={face.promptLang}
             hint={t("pressFlip")}
             onClick={toggleFlip}
-            action={
-              tts ? (
-                <SpeakButton label={t("speak")} onClick={() => void speak(face.prompt, rate)} />
-              ) : null
-            }
           />
           <CardFace
             kind="back"
@@ -161,11 +200,6 @@ export function FlashMode({
             example={showExample ? face.example : ""}
             exampleTr={showExample ? face.exampleTr : ""}
             onClick={toggleFlip}
-            action={
-              tts ? (
-                <SpeakButton label={t("speak")} onClick={() => void speak(face.answer, rate)} />
-              ) : null
-            }
           />
         </div>
       </div>
@@ -210,7 +244,6 @@ function CardFace({
   hint,
   example,
   exampleTr,
-  action,
   onClick,
 }: {
   kind: "front" | "back"
@@ -220,24 +253,22 @@ function CardFace({
   hint?: string
   example?: string
   exampleTr?: string
-  action?: ReactNode
   onClick?: () => void
 }) {
   return (
     <div className={cn("flip-face shadow-lift rounded-[1.75rem] border bg-card", kind === "back" && "face-back")}>
-      <div className="relative z-10 flex h-full flex-col p-6 pointer-events-none sm:p-8">
+      <div className="flip-face-body relative z-10 flex h-full flex-col p-5 pointer-events-none sm:p-8">
         <div className="flex items-center justify-between">
           <span className="text-[11px] tracking-wide text-muted-foreground">{label}</span>
-          {action}
         </div>
-        <div className="flex flex-1 flex-col items-center justify-center px-2 py-8 text-center">
-          <Phrase text={text} lang={textLang} className="text-4xl leading-tight sm:text-5xl" />
+        <div className="flex flex-1 flex-col items-center justify-center px-1 py-6 text-center sm:px-2 sm:py-8">
+          <Phrase text={text} lang={textLang} className="text-3xl leading-snug break-words sm:text-5xl sm:leading-tight" />
           {example ? (
-            <p className="mt-6 max-w-md text-sm leading-6 text-muted-foreground">{example}</p>
+            <p className="mt-5 max-w-md text-sm leading-6 text-muted-foreground">{example}</p>
           ) : null}
           {exampleTr ? <p className="mt-1 max-w-md text-sm leading-6">{exampleTr}</p> : null}
           {hint && !example ? (
-            <p className="mt-6 text-xs text-muted-foreground">{hint}</p>
+            <p className="mt-5 text-xs text-muted-foreground">{hint}</p>
           ) : null}
         </div>
         {onClick ? (
@@ -250,22 +281,6 @@ function CardFace({
         <button type="button" aria-label={text} className="absolute inset-0 z-0 rounded-[1.75rem]" onClick={onClick} />
       ) : null}
     </div>
-  )
-}
-
-function SpeakButton({ label, onClick }: { label: string; onClick: () => void }) {
-  return (
-    <button
-      type="button"
-      aria-label={label}
-      onClick={(event) => {
-        event.stopPropagation()
-        onClick()
-      }}
-      className="pointer-events-auto relative z-10 inline-flex size-9 items-center justify-center rounded-full border bg-background text-muted-foreground hover:text-foreground"
-    >
-      <Volume2 className="size-4" />
-    </button>
   )
 }
 
