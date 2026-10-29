@@ -26,7 +26,7 @@ GITHUB_PAGES=true npm run build
 
 ## 안드로이드 앱
 
-웹 앱을 Capacitor로 감쌐 네이티브 패키지입니다. 단어는 예전처럼 기기 안에만 납니다.
+웹 앱을 Capacitor로 감싼 네이티브 패키지입니다. 단어는 예전처럼 기기 안에만 납니다.
 
 필요한 것: Node.js 20+, JDK 21, 약 8GB 디스크. Linux나 macOS에서는 아래 스크립트가 Android SDK와 `seojae` 가상 기기를 같이 깔아 줍니다. 이 환경에는 KVM이 있어야 에뮬레이터가 빠릅니다.
 
@@ -36,7 +36,7 @@ npm run android:setup
 npm run android:run
 ```
 
-`android:setup`은 SDK를 `~/Android/Sdk`에 받고 API 35 가상 기기 `seojae`를 만듭니다. `android:run`은 정적 페이지를 빌드하고, 에뮬레이터를 켤 다음 디버그 APK를 설치해 서재를 실행합니다. 같은 APK는 `dist/seojae-debug.apk`로도 복사되니 실제 폰에는 이렇게 올리면 됩니다.
+`android:setup`은 SDK를 `~/Android/Sdk`에 받고 API 35 가상 기기 `seojae`를 만듭니다. `android:run`은 정적 페이지를 빌드하고, 에뮬레이터를 켜 다음 디버그 APK를 설치해 서재를 실행합니다. 같은 APK는 `dist/seojae-debug.apk`로도 복사되니 실제 폰에는 이렇게 올리면 됩니다.
 
 ```bash
 adb install -r dist/seojae-debug.apk
