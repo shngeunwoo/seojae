@@ -1,6 +1,9 @@
+import { schoolPacks } from "@/lib/seed-school"
+import { defaultSettings } from "@/lib/settings"
 import { detectLang } from "@/lib/text"
 import type { Card, CardDraft, Deck, DeckColor, PartOfSpeech, Persisted } from "@/lib/types"
-import { defaultSettings } from "@/lib/settings"
+
+export const CATALOG_REV = 1
 
 type SeedWord = {
   id: string
@@ -23,7 +26,7 @@ type SeedDeck = {
   words: SeedWord[]
 }
 
-const decks: SeedDeck[] = [
+const starterDecks: SeedDeck[] = [
   {
     id: "d-daily",
     name: "하루의 말",
@@ -45,7 +48,7 @@ const decks: SeedDeck[] = [
       ["tidy", "정돈하다", "verb", "I tidied the desk before opening the book.", "책을 펴기 전에 책상을 정돈했다."],
       ["stroll", "산책하다", "verb", "We strolled along the river after dinner.", "저녁을 먹고 강을 따라 산책했다."],
       ["whisper", "속삭이다", "verb", "He whispered so the baby would stay asleep.", "아기가 계속 자도록 그가 속삭였다."],
-    ].map(toWord),
+    ].map((row) => toWord(row)),
   },
   {
     id: "d-work",
@@ -68,7 +71,7 @@ const decks: SeedDeck[] = [
       ["estimate", "추정하다", "verb", "We estimate two weeks of work.", "작업은 2주 정도로 추정해요."],
       ["prioritize", "우선순위를 정하다", "verb", "Prioritize the tasks that unblock others.", "다른 일을 막고 있는 것부터 우선순위를 정하세요."],
       ["follow up", "후속 조치를 하다", "phrase", "I will follow up with a short summary.", "짧은 요약으로 후속 조치를 할게요."],
-    ].map(toWord),
+    ].map((row) => toWord(row)),
   },
   {
     id: "d-heart",
@@ -91,14 +94,37 @@ const decks: SeedDeck[] = [
       ["anxious", "초조한", "adj", "I was anxious before the first sentence.", "첫 문장을 내기 전에 초조했다."],
       ["bitter", "씁쓸한", "adj", "The ending tasted a little bitter.", "결말이 조금 씁쓸했다."],
       ["tender", "다정한", "adj", "She left a tender note on the desk.", "그녀는 책상 위에 다정한 쪽지를 남겼다."],
-    ].map(toWord),
+    ].map((row) => toWord(row)),
   },
 ]
 
-function toWord(row: string[]): SeedWord {
+const catalogDecks: SeedDeck[] = schoolPacks.map((pack) => ({
+  id: pack.id,
+  name: pack.name,
+  nameEn: pack.nameEn,
+  description: pack.description,
+  descriptionEn: pack.descriptionEn,
+  color: pack.color,
+  tags: pack.tags,
+  words: pack.words.map((row) => toWord(row, pack.id.slice(2))),
+}))
+
+const decks: SeedDeck[] = [...starterDecks, ...catalogDecks]
+
+function slugTerm(term: string) {
+  return term
+    .toLowerCase()
+    .replace(/['’]/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "")
+}
+
+function toWord(row: string[], prefix?: string): SeedWord {
   const [term, meaning, pos, example, exampleMeaning] = row
+  const usePrefix = typeof prefix === "string" && prefix.length > 0
+  const slug = usePrefix ? slugTerm(term) : term.replace(/\s+/g, "-")
   return {
-    id: `c-${term.replace(/\s+/g, "-")}`,
+    id: usePrefix ? `c-${prefix}-${slug}` : `c-${slug}`,
     term,
     meaning,
     pos: pos as PartOfSpeech,
@@ -108,8 +134,8 @@ function toWord(row: string[]): SeedWord {
   }
 }
 
-export function createSeed(now: number): Persisted {
-  const deckRows: Deck[] = decks.map((deck) => ({
+function buildLibrary(seedDecks: SeedDeck[], now: number, catalogRev: number): Persisted {
+  const deckRows: Deck[] = seedDecks.map((deck) => ({
     id: deck.id,
     name: deck.name,
     nameEn: deck.nameEn,
@@ -119,7 +145,7 @@ export function createSeed(now: number): Persisted {
     createdAt: now,
     updatedAt: now,
   }))
-  const cards: Card[] = decks.flatMap((deck) =>
+  const cards: Card[] = seedDecks.flatMap((deck) =>
     deck.words.map((word, index) => {
       const draft: CardDraft = {
         term: word.term,
@@ -156,5 +182,30 @@ export function createSeed(now: number): Persisted {
     cards,
     settings: defaultSettings,
     logs: {},
+    catalogRev,
   }
+}
+
+export function createSeed(now: number): Persisted {
+  return buildLibrary(decks, now, CATALOG_REV)
+}
+
+export function withCatalogDecks(data: Persisted, now: number): Persisted {
+  if ((data.catalogRev ?? 0) >= CATALOG_REV) return data
+  const catalog = buildLibrary(catalogDecks, now, CATALOG_REV)
+  const deckIds = new Set(data.decks.map((deck) => deck.id))
+  const cardIds = new Set(data.cards.map((card) => card.id))
+  const nextDecks = data.decks.slice()
+  const nextCards = data.cards.slice()
+  for (const deck of catalog.decks) {
+    if (deckIds.has(deck.id)) continue
+    nextDecks.push(deck)
+    deckIds.add(deck.id)
+  }
+  for (const card of catalog.cards) {
+    if (cardIds.has(card.id) || !deckIds.has(card.deckId)) continue
+    nextCards.push(card)
+    cardIds.add(card.id)
+  }
+  return { ...data, decks: nextDecks, cards: nextCards, catalogRev: CATALOG_REV }
 }

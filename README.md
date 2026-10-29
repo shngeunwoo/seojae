@@ -26,7 +26,7 @@ GITHUB_PAGES=true npm run build
 
 ## 안드로이드 앱
 
-웹 앱을 Capacitor로 감싼 네이티브 패키지입니다. 단어는 예전처럼 기기 안에만 납니다.
+웹 앱을 Capacitor로 감싼 네이티브 패키지입니다. 단어는 예전처럼 기기 안에만 남습니다.
 
 필요한 것: Node.js 20+, JDK 21, 약 8GB 디스크. Linux나 macOS에서는 아래 스크립트가 Android SDK와 `seojae` 가상 기기를 같이 깔아 줍니다. 이 환경에는 KVM이 있어야 에뮬레이터가 빠릅니다.
 
@@ -36,7 +36,7 @@ npm run android:setup
 npm run android:run
 ```
 
-`android:setup`은 SDK를 `~/Android/Sdk`에 받고 API 35 가상 기기 `seojae`를 만듭니다. `android:run`은 정적 페이지를 빌드하고, 에뮬레이터를 켜 다음 디버그 APK를 설치해 서재를 실행합니다. 같은 APK는 `dist/seojae-debug.apk`로도 복사되니 실제 폰에는 이렇게 올리면 됩니다.
+`android:setup`은 SDK를 `~/Android/Sdk`에 받고 API 35 가상 기기 `seojae`를 만듭니다. `android:run`은 정적 페이지를 빌드하고, 에뮬레이터를 켠 다음 디버그 APK를 설치해 서재를 실행합니다. 같은 APK는 `dist/seojae-debug.apk`로도 복사되니 실제 폰에는 이렇게 올리면 됩니다.
 
 ```bash
 adb install -r dist/seojae-debug.apk
@@ -62,7 +62,7 @@ npx cap open android
 
 - 단어장 만들기, 이름과 색 바꾸기, 지우기
 - 단어 추가와 수정. 품사, 예문, 해석, 태그, 메모, 즐겨찾기
-- 영어와 한국어를 어느 쪽에나 두기. 비슷한 뜻은 `/` 로 나눍니다
+- 영어와 한국어를 어느 쪽에나 두기. 비슷한 뜻은 `/` 로 나눕니다
 - 여러 줄 붙여넣기. `단어 - 뜻`, 탭, `|` 를 읽습니다
 - JSON 백업과 CSV 가져오기, 내보내기
 - 오늘 복습, 새 단어, 약한 단어, 즐겨찾기, 전체
@@ -78,4 +78,4 @@ npx cap open android
 
 ## 글꼴
 
-화면 글꼴은 [Pretendard](https://github.com/orioncactus/pretendard)입니다. SIL Open Font License 1.1. 라이선스 원문은 `public/fonts/OFL.txt`에 있습니다. 한글은 jsDelivr의 가변 서브셋으로 불러오고, 영문 제목에는 Fraunces를 쓰니다.
+화면 글꼴은 [Pretendard](https://github.com/orioncactus/pretendard)입니다. SIL Open Font License 1.1. 라이선스 원문은 `public/fonts/OFL.txt`에 있습니다. 한글은 jsDelivr의 가변 서브셋으로 불러오고, 영문 제목에는 Fraunces를 씁니다.
