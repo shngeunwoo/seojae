@@ -248,7 +248,7 @@ function ShortcutDialog({
   const { t } = useI18n()
   const rows = [
     ["Space", t("shortcutFlip")],
-    ["1  2  3  4", t("shortcutGrade")],
+    ["1  2  3  4  5  6", t("shortcutGrade")],
     ["S", t("shortcutSpeak")],
     ["F", t("shortcutStar")],
     ["Esc", t("shortcutExit")],

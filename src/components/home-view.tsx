@@ -37,7 +37,7 @@ export function HomeView() {
   const today = libraryToday(state)
   const streak = streakCount(state.logs, today)
   const studied = state.logs[today]?.reviews ?? 0
-  const hour = new Date(state.clock).getHours()
+  const hour = state.clock ? new Date(state.clock).getHours() : 9
 
   const results = useMemo(() => {
     const q = deferred.trim().toLowerCase()

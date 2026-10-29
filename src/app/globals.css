@@ -130,6 +130,7 @@
   }
   body {
     @apply bg-background text-foreground;
+    padding-top: env(safe-area-inset-top);
     background-image:
       radial-gradient(1100px 480px at 0% -10%, oklch(0.93 0.03 85 / 0.85), transparent 55%),
       radial-gradient(900px 420px at 100% 0%, oklch(0.9 0.04 165 / 0.28), transparent 50%);
