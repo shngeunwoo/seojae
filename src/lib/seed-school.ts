@@ -1,13 +1,12 @@
-export type SchoolPack = {
-  id: string
-  name: string
-  nameEn: string
-  description: string
-  descriptionEn: string
-  color: "pine" | "clay" | "gold" | "plum" | "sea" | "ink"
-  tags: string[]
-  words: string[][]
-}
+import { mockPack } from "@/lib/school/mock"
+import { l1Pack } from "@/lib/school/l1"
+import { l2Pack } from "@/lib/school/l2"
+import { l3Pack } from "@/lib/school/l3"
+import { l4Pack } from "@/lib/school/l4"
+import { slPack } from "@/lib/school/sl"
+import type { SchoolPack } from "@/lib/school/types"
+
+export type { SchoolPack }
 
 export const CATALOG_DECK_IDS = [
   "d-ne-l1",
@@ -18,155 +17,4 @@ export const CATALOG_DECK_IDS = [
   "d-mock",
 ] as const
 
-export const schoolPacks: SchoolPack[] = [
-  {
-    id: "d-ne-l1",
-    name: "공통영어2 1과",
-    nameEn: "Common English 2 L1",
-    description: "능률 오선영 · Embrace Connections",
-    descriptionEn: "Neungyul Oh Seon-young, Lesson 1",
-    color: "sea",
-    tags: ["공통영어2", "L1"],
-    words: [
-      ["unite", "연합하다", "verb", "Musicians from five countries united for one stage.", "다섯 나라의 연주자들이 한 무대에 연합했다."],
-      ["impressive", "인상적인", "adj", "The first chorus was more impressive than I expected.", "첫 후렴이 생각보다 인상적이었다."],
-      ["vitality", "활기", "noun", "The street market still had a quiet vitality at dusk.", "해질녘 시장에도 조용한 활기가 남아 있었다."],
-      ["randomly", "무작위로", "adv", "Names were drawn randomly from a small box.", "이름은 작은 상자에서 무작위로 뽑혔다."],
-      ["nationality", "국적", "noun", "The form asked for nationality, not hometown.", "서류는 고향이 아니라 국적을 물었다."],
-      ["lyrics", "가사", "noun", "I learned the lyrics before I learned the chords.", "코드보다 가사를 먼저 외웠다."],
-      ["virtual", "가상의", "adj", "They held a virtual rehearsal across three time zones.", "세 시간대에 걸쳐 가상 리허설을 했다."],
-      ["to one's surprise", "놀랍게도", "phrase", "To our surprise, the quiet student wrote the best verse.", "놀랍게도 말수 적은 학생이 가장 좋은 가사를 썼다."],
-      ["eagerly", "간절히", "adv", "The younger members waited eagerly for their turn.", "후배들은 자기 차례를 간절히 기다렸다."],
-      ["encounter", "맞닥뜨리다", "verb", "Online, we still encounter delays and dropped lines.", "온라인에서도 지연과 끊김을 맞닥뜨린다."],
-      ["convenient", "편리한", "adj", "A shared folder is convenient, but it is not the same as a room.", "공유 폴더는 편리하지만 한 방과는 다르다."],
-      ["out of sync", "조화를 이루지 못하는", "phrase", "The drums were out of sync with the vocal.", "드럼이 보컬과 조화를 이루지 못했다."],
-      ["devise", "고안하다", "verb", "They devised a simple cue so everyone could enter together.", "모두 같이 들어오도록 간단한 신호를 고안했다."],
-      ["assemble", "모으다", "verb", "It took an hour to assemble the full group on one call.", "한 통화에 전원을 모으는 데 한 시간이 걸렸다."],
-      ["when it comes to", "~에 관한 한", "phrase", "When it comes to harmony, listening matters more than volume.", "하모니에 관한 한 크기보다 듣기가 중요하다."],
-      ["take turns", "교대로 하다", "phrase", "We take turns leading the warm-up.", "워밍업은 교대로 이끈다."],
-      ["put on hold", "보류하다", "phrase", "Travel plans were put on hold until the visas arrived.", "비자가 올 때까지 여행 계획은 보류됐다."],
-      ["interaction", "상호 작용", "noun", "Good interaction is hard when faces freeze on screen.", "화면이 멈추면 상호 작용이 어렵다."],
-      ["hardship", "어려움", "noun", "Distance was a hardship, not a reason to stop.", "거리는 어려움이지 그만둘 이유는 아니었다."],
-      ["in person", "직접", "phrase", "They finally sang in person after a year of screens.", "일 년의 화면 끝에 드디어 직접 노래했다."],
-    ],
-  },
-  {
-    id: "d-ne-l2",
-    name: "공통영어2 2과",
-    nameEn: "Common English 2 L2",
-    description: "능률 오선영 · From Problems to Solutions",
-    descriptionEn: "Neungyul Oh Seon-young, Lesson 2",
-    color: "clay",
-    tags: ["공통영어2", "L2"],
-    words: [
-      ["collaboration", "협력", "noun", "The park came from a collaboration between residents and the city.", "공원은 주민과 시의 협력에서 나왔다."],
-      ["revitalize", "되살리다", "verb", "New shops helped revitalize the empty block.", "새 가게들이 빈 거리를 되살리는 데 도움이 됐다."],
-      ["be known for", "~로 알려지다", "phrase", "The town is known for its old shipyard.", "그 마을은 오래된 조선소로 알려진다."],
-      ["architecture", "건축", "noun", "The architecture still shows the port's busy years.", "건축이 항구가 붐비던 시절을 아직 보여 준다."],
-      ["port", "항구", "noun", "Cranes still stand along the quiet port.", "조용한 항구를 따라 기중기가 아직 서 있다."],
-      ["residential", "주거의", "adj", "A residential street does not need another warehouse.", "주거 거리에는 창고가 하나 더 필요 없다."],
-      ["abandon", "버리다", "verb", "They refused to abandon the brick buildings.", "그들은 벽돌 건물을 버리기를 거부했다."],
-      ["take over", "넘겨받다", "phrase", "A small studio will take over the ground floor.", "작은 작업실이 1층을 넘겨받는다."],
-      ["tear down", "허물다", "phrase", "The easy plan was to tear down everything.", "손쉬운 계획은 전부 허무는 것이었다."],
-      ["budget", "예산", "noun", "The budget was tight, so they reused the walls.", "예산이 빠듯해서 벽을 다시 썼다."],
-      ["renovate", "고치다", "verb", "Volunteers helped renovate the old hall.", "자원봉사자들이 낡은 회관을 고치는 일을 도왔다."],
-      ["applicant", "지원자", "noun", "Every applicant had to explain how the space would be used.", "모든 지원자는 공간을 어떻게 쓸지 설명해야 했다."],
-      ["apparently", "보아하니", "adv", "Apparently the roof can last another decade.", "보아하니 지붕은 십 년은 더 간다."],
-      ["transform", "바꾸다", "verb", "Light and plants can transform a grey courtyard.", "빛과 식물이 회색 마당을 바꿀 수 있다."],
-      ["worn-out", "닳은", "adj", "Worn-out benches were repaired, not thrown away.", "닳은 벤치는 버리지 않고 고쳤다."],
-      ["desirable", "바람직한", "adj", "A walkable street is a desirable change.", "걸어 다닐 수 있는 길은 바람직한 변화다."],
-      ["shipyard", "조선소", "noun", "The shipyard once employed half the town.", "조선소는 한때 마을 절반을 고용했다."],
-      ["turn to", "의지하다", "phrase", "When money ran short, they turned to local makers.", "돈이 모자라자 동네 제작자에게 의지했다."],
-      ["primary", "주된", "adj", "The primary goal was safety, then beauty.", "주된 목표는 안전이었고, 그다음이 아름다움이었다."],
-      ["innovative", "혁신적인", "adj", "An innovative lease let artists pay with upkeep.", "혁신적인 임대는 예술가가 관리로 값을 치르게 했다."],
-      ["award", "수여하다", "verb", "The city will award the unused lot to a community kitchen.", "시는 빈 땅을 공동체 부엌에 수여할 것이다."],
-      ["lease", "임대 계약", "noun", "The lease lasts five years if the garden stays open.", "정원이 열려 있으면 임대는 오 년이다."],
-      ["foundation", "토대", "noun", "A dry foundation matters more than new paint.", "새 페인트보다 마른 토대가 더 중요하다."],
-      ["upcycle", "업사이클하다", "verb", "Students upcycled crates into seats.", "학생들은 상자를 의자로 업사이클했다."],
-      ["path", "길", "noun", "A gravel path now links the station to the river.", "자갈길이 이제 역과 강을 잇는다."],
-      ["purify", "정화하다", "verb", "Reeds help purify the small canal.", "갈대가 작은 운하를 정화하는 데 도움이 된다."],
-      ["cooperation", "협동", "noun", "Without cooperation the lights would stay off.", "협동 없이는 불이 꺼진 채로 남았을 것이다."],
-      ["vital", "필수적인", "adj", "Shade is vital in a treeless lot.", "나무 없는 공터에서 그늘은 필수적이다."],
-      ["inspiration", "영감", "noun", "The old crane became an inspiration, not scrap.", "낡은 기중기는 고철이 아니라 영감이 됐다."],
-    ],
-  },
-  {
-    id: "d-ne-l3",
-    name: "공통영어2 3과",
-    nameEn: "Common English 2 L3",
-    description: "능률 오선영 · Our Heritage, Our Treasure",
-    descriptionEn: "Neungyul Oh Seon-young, Lesson 3",
-    color: "gold",
-    tags: ["공통영어2", "L3"],
-    words: [
-      ["rescue", "구하다", "verb", "Teams worked through the night to rescue the archive.", "팀은 기록 보관소를 구하려고 밤을 새웠다."],
-      ["risk", "위험을 무릅쓰다", "verb", "They risked the smoke to carry out the last crates.", "마지막 상자를 꺼내려고 연기의 위험을 무릅썼다."],
-      ["priceless", "값을 매길 수 없는", "adj", "A diary can be priceless even if it is not gold.", "일기장은 금이 아니어도 값을 매길 수 없다."],
-      ["ruin", "폐허", "noun", "Only the stone steps were left in the ruin.", "폐허에는 돌계단만 남았다."],
-      ["archive", "기록 보관소", "noun", "The archive held maps no one had scanned.", "보관소에는 아직 스캔하지 않은 지도가 있었다."],
-      ["scholar", "학자", "noun", "A visiting scholar listed every damaged page.", "방문 학자가 손상된 쪽을 모두 적었다."],
-      ["historian", "역사가", "noun", "The historian argued that the mural belonged to the town.", "역사가는 벽화가 마을의 것이라고 주장했다."],
-      ["destruction", "파괴", "noun", "Water caused more destruction than fire.", "물로 인한 파괴가 불보다 컸다."],
-      ["landmark", "랜드마크", "noun", "The tower is still the town's landmark.", "탑은 여전히 마을의 랜드마크다."],
-      ["persuade", "설득하다", "verb", "She persuaded the guards to open one more room.", "그녀는 경비원에게 방 하나를 더 열어 달라고 설득했다."],
-      ["force", "힘", "noun", "A small force of volunteers formed a human chain.", "작은 자원봉사 인력이 사람 사슬을 만들었다."],
-      ["bomb", "폭격하다", "verb", "The museum had been bombed decades earlier.", "박물관은 수십 년 전에 폭격당한 적이 있다."],
-      ["significant", "중요한", "adj", "Even a torn ticket can be a significant clue.", "찢어진 표도 중요한 단서가 될 수 있다."],
-      ["restore", "복원하다", "verb", "It took years to restore the ceiling.", "천장을 복원하는 데 몇 년이 걸렸다."],
-      ["retreat", "후퇴하다", "verb", "They had to retreat when the floor sagged.", "바닥이 처지자 후퇴해야 했다."],
-      ["against the clock", "시간을 다투어", "phrase", "They packed against the clock before the rain returned.", "비가 다시 오기 전에 시간을 다투며 싸맸다."],
-      ["collection", "수집품", "noun", "The collection includes letters written in pencil.", "수집품에는 연필로 쓴 편지가 들어 있다."],
-      ["in charge of", "~을 맡다", "phrase", "He was in charge of the keys, not the speeches.", "그는 연설이 아니라 열쇠를 맡았다."],
-      ["set off", "출발하다", "phrase", "Trucks set off at dawn with the crates.", "트럭은 새벽 상자를 싣고 출발했다."],
-      ["explosive", "폭발물", "noun", "Old explosives were found far from the gallery.", "옛 폭발물은 전시실에서 멀리 떨어진 곳에서 나왔다."],
-      ["disastrous", "처참한", "adj", "A disastrous leak stained the oldest maps.", "처참한 누수가 가장 오래된 지도를 얼룩지게 했다."],
-      ["livelihood", "생계", "noun", "Guides lost their livelihood when the site closed.", "유적지가 닫히자 안내인들은 생계를 잃었다."],
-      ["seal off", "봉쇄하다", "phrase", "Police sealed off the wet wing of the building.", "경찰은 건물에서 젖은 쪽을 봉쇄했다."],
-      ["squeeze", "비집고 들어가다", "verb", "Two people squeezed through a narrow service door.", "두 사람이 좁은 업무용 문으로 비집고 들어갔다."],
-      ["transport", "운반하다", "verb", "Boats transported the boxes upriver.", "배가 상자를 강 위로 운반했다."],
-      ["insufficient", "부족한", "adj", "One night of work was insufficient.", "하룻밤 일로는 부족했다."],
-      ["supply", "보급품", "noun", "They asked for a supply of dry cloth and tape.", "마른 천과 테이프 보급을 요청했다."],
-      ["mission", "임무", "noun", "The mission was simple: get the papers out dry.", "임무는 단순했다. 서류를 마른 채로 빼내는 것."],
-      ["accomplish", "해내다", "verb", "They accomplished more than the plan allowed.", "계획보다 많은 일을 해냈다."],
-      ["identify", "확인하다", "verb", "Labels helped them identify each crate in the dark.", "라벨 덕분에 어둠 속에서도 상자를 확인했다."],
-      ["origin", "기원", "noun", "The origin of the song is still debated.", "그 노래의 기원은 아직 논쟁 중이다."],
-      ["determined", "결연한", "adj", "A determined student copied the faded names.", "결연한 학생이 흐려진 이름을 베꼈다."],
-      ["countless", "셀 수 없이 많은", "adj", "Countless hands had touched the same brass handle.", "셀 수 없이 많은 손이 같은 놋쇠 손잡이를 만졌다."],
-      ["contribution", "기여", "noun", "Even a flashlight was a real contribution.", "손전등 하나도 진짜 기여였다."],
-    ],
-  },
-  {
-    id: "d-ne-l4",
-    name: "공통영어2 4과",
-    nameEn: "Common English 2 L4",
-    description: "능률 오선영 · Good for All of Us",
-    descriptionEn: "Neungyul Oh Seon-young, Lesson 4",
-    color: "pine",
-    tags: ["공통영어2", "L4"],
-    words: [
-      ["right-handed", "오른손잡이의", "adj", "Most desks assume a right-handed writer.", "책상 대부분은 오른손잡이를 전제로 한다."],
-      ["disability", "장애", "noun", "A disability is not a reason to skip the concert.", "장애는 공연을 건너뛸 이유가 아니다."],
-      ["accessibility", "접근성", "noun", "A ramp is one small part of accessibility.", "경사로는 접근성의 작은 부분일 뿐이다."],
-      ["alternative", "대안의", "adj", "An alternative entrance opened on the side street.", "골목에 대안 출입구가 열렸다."],
-      ["detect", "감지하다", "verb", "The app can detect a color a person cannot name.", "앱은 사람이 이름 붙이지 못하는 색도 감지한다."],
-      ["ensure", "보장하다", "verb", "Captions ensure that more people can follow the talk.", "자막은 더 많은 사람이 강연을 따라가도록 보장한다."],
-      ["transcript", "기록문", "noun", "A transcript helps if the audio is unclear.", "소리가 흐리면 기록문이 도움이 된다."],
-      ["caption", "자막", "noun", "The caption appeared a second late.", "자막이 한 박자 늦게 떴다."],
-      ["necessarily", "반드시", "adv", "A new building is not necessarily a fair building.", "새 건물이 반드시 공평한 건물은 아니다."],
-      ["contrast", "대조되다", "verb", "Dark text contrasts better on a pale wall.", "옅은 벽에서는 어두운 글자가 더 잘 대조된다."],
-      ["adjust", "조정하다", "verb", "You can adjust the type size with one tap.", "한 번 눌러 글자 크기를 조정할 수 있다."],
-      ["navigation", "길 찾기", "noun", "Clear navigation matters more than decoration.", "꾸밈보다 분명한 길 찾기가 중요하다."],
-      ["rely on", "의존하다", "phrase", "Do not rely on color alone to show the exit.", "출구를 색만으로 표시하는 데 의존하지 마라."],
-      ["make use of", "활용하다", "phrase", "The station makes use of sound as well as signs.", "역은 표지뿐 아니라 소리도 활용한다."],
-      ["arrow", "화살표", "noun", "A floor arrow is easier to see in a crowd.", "사람이 많으면 바닥 화살표가 더 잘 보인다."],
-      ["temporarily", "일시적으로", "adv", "The elevator is temporarily out of service.", "엘리베이터는 일시적으로 멈춘 상태다."],
-      ["indicator", "지표", "noun", "A blinking indicator is useless if it is too small.", "너무 작으면 깜빡이는 지표도 소용없다."],
-      ["color blindness", "색각 이상", "noun", "Color blindness is common, so maps need more than red and green.", "색각 이상은 흔하니 지도는 빨강과 초록만으로 부족하다."],
-      ["tell apart", "구별하다", "phrase", "Patterns help people tell the lines apart.", "무늬가 있으면 노선을 구별하기 쉽다."],
-      ["dotted", "점선의", "adj", "A dotted line marks the slower path.", "점선이 느린 길을 표시한다."],
-      ["solid", "실선의", "adj", "The solid line is the step-free route.", "실선이 단차 없는 길이다."],
-      ["regardless of", "~에 상관없이", "phrase", "The hall should work regardless of how a person arrives.", "어떻게 도착하든 홀은 쓸 수 있어야 한다."],
-      ["inclusive", "포용적인", "adj", "An inclusive design is quieter and clearer for everyone.", "포용적인 설계는 모두에게 더 조용하고 분명하다."],
-    ],
-  },
-]
+export const schoolPacks: SchoolPack[] = [l1Pack, l2Pack, l3Pack, l4Pack, slPack, mockPack]
