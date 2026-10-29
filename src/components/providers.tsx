@@ -6,10 +6,15 @@ import { CircleCheckIcon, InfoIcon, OctagonXIcon, TriangleAlertIcon } from "luci
 import { Mark } from "@/components/bits"
 import { Shell } from "@/components/shell"
 import { TooltipProvider } from "@/components/ui/tooltip"
-import { bumpClock, flushPersist, flushStudyTime, useAppState } from "@/lib/store"
+import { bootNativeShell, watchNativeBack } from "@/lib/native"
+import { bumpClock, flushPersist, flushStudyTime, hydrateStore, useAppState } from "@/lib/store"
 
 export function AppProvider({ children }: { children: ReactNode }) {
   const state = useAppState()
+
+  useEffect(() => {
+    hydrateStore()
+  }, [])
 
   useEffect(() => {
     const root = document.documentElement
@@ -29,10 +34,13 @@ export function AppProvider({ children }: { children: ReactNode }) {
       flushPersist()
     }
     window.addEventListener("pagehide", hide)
+    const stopBack = watchNativeBack()
+    if (state.ready) void bootNativeShell(state.settings.theme)
     return () => {
       media.removeEventListener("change", apply)
       window.clearInterval(clock)
       window.removeEventListener("pagehide", hide)
+      stopBack()
     }
   }, [state.settings.theme, state.settings.uiLang, state.ready])
 
