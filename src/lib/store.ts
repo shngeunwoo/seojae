@@ -268,3 +268,78 @@ function commit(next: Runtime, options?: { persist?: boolean; session?: boolean 
 export function useAppState() {
   return useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot)
 }
+
+export function makeCard(deckId: string, draft: CardDraft, now = Date.now()): Card {
+  return {
+    ...draft,
+    term: draft.term.trim(),
+    meaning: draft.meaning.trim(),
+    id: crypto.randomUUID(),
+    deckId,
+    createdAt: now,
+    updatedAt: now,
+    ease: 2.5,
+    interval: 0,
+    repetitions: 0,
+    due: now,
+    lapses: 0,
+    reviews: 0,
+    correct: 0,
+    lastReviewed: null,
+  }
+}
+
+export function updateSettings(patch: Partial<Settings>) {
+  ensure()
+  commit({ ...runtime, settings: { ...runtime.settings, ...patch } })
+}
+
+export function addDeck(input: { name: string; description: string; color: DeckColor }) {
+  ensure()
+  const now = Date.now()
+  const deck: Deck = {
+    id: crypto.randomUUID(),
+    name: input.name.trim(),
+    nameEn: "",
+    description: input.description.trim(),
+    descriptionEn: "",
+    color: input.color,
+    createdAt: now,
+    updatedAt: now,
+  }
+  commit({ ...runtime, decks: [deck, ...runtime.decks] })
+  return deck
+}
+
+export function updateDeck(
+  id: string,
+  patch: Partial<Pick<Deck, "name" | "description" | "color">>,
+) {
+  ensure()
+  const now = Date.now()
+  commit({
+    ...runtime,
+    decks: runtime.decks.map((deck) =>
+      deck.id === id
+        ? {
+            ...deck,
+            ...patch,
+            name: patch.name?.trim() || deck.name,
+            description: patch.description?.trim() ?? deck.description,
+            updatedAt: now,
+          }
+        : deck,
+    ),
+  })
+}
+
+export function deleteDeck(id: string) {
+  ensure()
+  const session = runtime.session?.deckId === id ? null : runtime.session
+  commit({
+    ...runtime,
+    decks: runtime.decks.filter((deck) => deck.id !== id),
+    cards: runtime.cards.filter((card) => card.deckId !== id),
+    session,
+  })
+}
