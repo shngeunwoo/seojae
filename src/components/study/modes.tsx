@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useRef, useState, type ReactNode } from "react"
+import { useEffect, useRef, useState, useSyncExternalStore, type ReactNode } from "react"
 import { Volume2 } from "lucide-react"
 import { Kbd, Phrase } from "@/components/bits"
 import { Button } from "@/components/ui/button"
@@ -459,10 +459,11 @@ export function ListenMode({
 }) {
   const { t } = useI18n()
   const face = facing(card, direction, index)
-  const [speechOk, setSpeechOk] = useState(false)
-  useEffect(() => {
-    setSpeechOk(canSpeak())
-  }, [])
+  const speechOk = useSyncExternalStore(
+    () => () => {},
+    canSpeak,
+    () => false,
+  )
   const [round] = useState(() => ({
     id: card.id,
     choices: choicesFor(card, index, direction, pool),
